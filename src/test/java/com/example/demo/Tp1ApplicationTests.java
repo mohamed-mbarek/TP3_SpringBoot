@@ -6,9 +6,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import com.example.demo.entities.Produit;
 import com.example.demo.repository.ProduitRepository;
+import com.example.demo.service.ProduitService;
 
 
 @SpringBootTest
@@ -16,6 +18,9 @@ class Tp1ApplicationTests {
 
 	@Autowired
 	private ProduitRepository produitRepository;
+
+	@Autowired
+	private ProduitService produitService ;
 
 	@Test
 	public void testCreateProduit() {
@@ -48,5 +53,20 @@ class Tp1ApplicationTests {
 		for (Produit p : prods) {
 			System.out.println(p);
 		}
+	}
+	@Test
+	public void testFindByNomProduitContains()
+	{
+	Page<Produit> prods = produitService.getAllProduitsParPage(0,2);
+	System.out.println(prods.getSize());
+	System.out.println(prods.getTotalElements());
+	System.out.println(prods.getTotalPages());
+	prods.getContent().forEach(p -> {System.out.println(p.toString());
+	});
+	/*ou bien
+	for (Produit p : prods)
+	{
+	System.out.println(p);
+	} */
 	}
 }
